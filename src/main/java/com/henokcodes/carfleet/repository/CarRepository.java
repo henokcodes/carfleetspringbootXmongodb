@@ -12,4 +12,6 @@ public interface CarRepository extends MongoRepository<Car, String> {
     public Car findByBrand(String brand);
     //find by price
     public Car findByPrice(String price);
+
+    Car findByLicensePlate(String licensePlate);
 }
