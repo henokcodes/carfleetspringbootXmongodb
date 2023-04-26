@@ -23,6 +23,8 @@ public class CarService {
     public CarDTO addCar(CarDTO carDTO){
         Car car = carAdaptor.getCar(carDTO);
         carRepository.save(car);
+        System.out.println("************");
+        System.out.println(carDTO);
         return carDTO;
     }
     //remove car
@@ -35,17 +37,18 @@ public class CarService {
         Car car = carRepository.findByLicensePlate(carDTO.getLicensePlate());
         car.setType(carDTO.getType());
         car.setBrand(carDTO.getBrand());
+        car.setColor(carDTO.getColor());
         car.setPrice(carDTO.getPrice());
-        car.setAmount(carDTO.getAmount());
         carRepository.save(car);
         return carDTO;
     }
 
     //get all cars
-    public Collection<CarDTO> getAllCars(){
-        Collection<Car> cars =  carRepository.findAll();
-        Collection<CarDTO> carDTOs = carAdaptor.getAllCarDTOs(cars);
-        return carDTOs;
+    public List<Car> getAllCars(){
+        List<Car> cars =  carRepository.findAll();
+        System.out.println(cars);
+
+        return cars;
     }
 
     //get car by licensePlate
@@ -56,29 +59,26 @@ public class CarService {
     }
 
     //get car by type
-    public CarDTO getCarByType(String type){
-        Car car = carRepository.findByType(type);
-        CarDTO carDTO = carAdaptor.getCarDTO(car);
+    public List<CarDTO> getCarsByType(String type){
+        List<Car> car = carRepository.findByType(type);
+
+        List<CarDTO> carDTO = (List<CarDTO>) carAdaptor.getAllCarDTOs(car);
         return carDTO;
     }
     //get car by brand
-    public CarDTO getCarByBrand(String brand){
-        Car car = carRepository.findByBrand(brand);
-        CarDTO carDTO = carAdaptor.getCarDTO(car);
+    public List<CarDTO> getCarsByBrand(String brand){
+        List<Car> car = carRepository.findByBrand(brand);
+        List<CarDTO> carDTO = (List<CarDTO>) carAdaptor.getAllCarDTOs(car);
         return carDTO;
     }
     //get car by price
-    public CarDTO getCarByPrice(String price){
-        Car car = carRepository.findByPrice(price);
-        CarDTO carDTO = carAdaptor.getCarDTO(car);
+    public List<CarDTO> getCarsByPrice(String price){
+        List<Car> car = carRepository.findByPrice(price);
+        List<CarDTO> carDTO = (List<CarDTO>) carAdaptor.getAllCarDTOs(car);
         return carDTO;
     }
 
-    //get car amount by licensePlate
-    public int getCarAmountByLicensePlate(String licensePlate){
-        Car car = carRepository.findByLicensePlate(licensePlate);
-        return car.getAmount();
-    }
+
 
 
 

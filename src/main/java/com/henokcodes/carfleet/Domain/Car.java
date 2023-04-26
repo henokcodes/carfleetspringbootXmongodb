@@ -1,13 +1,12 @@
 package com.henokcodes.carfleet.Domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Generated;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "cars")
 public class Car {
@@ -15,13 +14,24 @@ public class Car {
     @Id
     @Generated
     private String id;
+    @NonNull
     @Indexed(unique = true)
     private String licensePlate;
+    @NonNull
     private String type;
-    private String Brand;
-    private String price;
-    private int amount;
+    @NonNull
+    private String brand;
 
-    public Car(String licensePlate, String type, String brand, String price, int amount) {
+    @NonNull
+    private String color;
+    @NonNull
+    private long price;
+
+    public Car(String licensePlate, String type, String brand, String color, long price) {
+        this.licensePlate = licensePlate;
+        this.type = type;
+        this.brand = brand;
+        this.color = color;
+        this.price = price;
     }
 }
