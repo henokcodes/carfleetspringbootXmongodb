@@ -14,6 +14,7 @@ public class CarDTO {
     private String brand;
     private String color;
     private long price;
+    private boolean isAvailable;
 
 
 }

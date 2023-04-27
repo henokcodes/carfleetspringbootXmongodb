@@ -1,11 +1,12 @@
 package com.henokcodes.carfleet.controller;
 
 import com.henokcodes.carfleet.Domain.Car;
+import com.henokcodes.carfleet.Dto.Cars;
 import com.henokcodes.carfleet.Dto.CarDTO;
 import com.henokcodes.carfleet.service.CarService;
-import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -19,37 +20,33 @@ public class CarController {
     private CarService carService;
     //get all cars
     @GetMapping
-    public List<Car> getAllCars(){
-        return carService.getAllCars();
+    public  ResponseEntity<?> getAllCars(){
+        Cars cars =  carService.getAllCars();
+        return new ResponseEntity<Cars>(cars, HttpStatus.OK);
     }
 
 
     //get car by type
     @GetMapping("/search")
-    public List<CarDTO> getCarByKey(@RequestParam String key, @RequestParam String value){
-        if(key.equals("type"))
-        return carService.getCarsByType(value);
-        else if(key.equals("brand"))
-        return carService.getCarsByBrand(value);
-        else if(key.equals("price"))
-        return carService.getCarsByPrice(value);
-        else return null;
+    public ResponseEntity<?> getCarByKey(@RequestParam String brand, @RequestParam String type){
+
+        return new ResponseEntity<Cars>(carService.getCarsByBrandAndType(brand,type), HttpStatus.OK);
 
     }
     @GetMapping("/{licensePlate}")
-    public CarDTO getCarByKey(@PathVariable String licensePlate){
-            return carService.getCarByLicensePlate(licensePlate);
+    public ResponseEntity<?> getCarByKey(@PathVariable String licensePlate){
+            return new ResponseEntity<CarDTO>(carService.getCarByLicensePlate(licensePlate), HttpStatus.OK);
     }
 
     //add car
     @PostMapping
-    public CarDTO addCar(@RequestBody CarDTO carDTO){
-        return carService.addCar(carDTO);
+    public ResponseEntity<?> addCar(@RequestBody CarDTO carDTO){
+        return new ResponseEntity<CarDTO>(carService.addCar(carDTO), HttpStatus.CREATED);
     }
     //update car
     @PutMapping
-    public CarDTO updateCar(@RequestBody CarDTO carDTO){
-        return carService.updateCar(carDTO);
+    public ResponseEntity<?> updateCar(@RequestBody CarDTO carDTO){
+        return new ResponseEntity<CarDTO>(carService.updateCar(carDTO), HttpStatus.OK);
     }
     //remove car
     @DeleteMapping("/{licensePlate}")

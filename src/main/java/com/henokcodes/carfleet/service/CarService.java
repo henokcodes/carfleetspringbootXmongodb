@@ -1,6 +1,7 @@
 package com.henokcodes.carfleet.service;
 
 import com.henokcodes.carfleet.Domain.Car;
+import com.henokcodes.carfleet.Dto.Cars;
 import com.henokcodes.carfleet.Dto.CarDTO;
 import com.henokcodes.carfleet.adaptor.CarAdaptor;
 import com.henokcodes.carfleet.repository.CarRepository;
@@ -44,38 +45,55 @@ public class CarService {
     }
 
     //get all cars
-    public List<Car> getAllCars(){
-        List<Car> cars =  carRepository.findAll();
-        System.out.println(cars);
+    public Cars getAllCars(){
+        Collection<Car> cars = carRepository.findAll();
 
-        return cars;
+        Collection<CarDTO> carDTO =  carAdaptor.getAllCarDTOs(cars);
+        Cars allCars = new Cars(carDTO);
+        return allCars;
+
     }
 
     //get car by licensePlate
     public CarDTO getCarByLicensePlate(String licensePlate){
         Car car = carRepository.findByLicensePlate(licensePlate);
         CarDTO carDTO = carAdaptor.getCarDTO(car);
+
         return carDTO;
     }
 
     //get car by type
-    public List<CarDTO> getCarsByType(String type){
-        List<Car> car = carRepository.findByType(type);
+    public Cars getCarsByType(String type){
+        Collection<Car> car = carRepository.findByType(type);
 
-        List<CarDTO> carDTO = (List<CarDTO>) carAdaptor.getAllCarDTOs(car);
-        return carDTO;
+        Collection<CarDTO> carDTO =  carAdaptor.getAllCarDTOs(car);
+        Cars cars = new Cars(carDTO);
+        return cars;
+
     }
     //get car by brand
-    public List<CarDTO> getCarsByBrand(String brand){
-        List<Car> car = carRepository.findByBrand(brand);
-        List<CarDTO> carDTO = (List<CarDTO>) carAdaptor.getAllCarDTOs(car);
-        return carDTO;
+    public Cars getCarsByBrand(String brand){
+        Collection<Car> car = carRepository.findByBrand(brand);
+
+        Collection<CarDTO> carDTO =  carAdaptor.getAllCarDTOs(car);
+        Cars cars = new Cars(carDTO);
+        return cars;
     }
     //get car by price
-    public List<CarDTO> getCarsByPrice(String price){
-        List<Car> car = carRepository.findByPrice(price);
-        List<CarDTO> carDTO = (List<CarDTO>) carAdaptor.getAllCarDTOs(car);
-        return carDTO;
+    public Cars getCarsByPrice(String price){
+        Collection<Car> car = carRepository.findByPrice(price);
+
+        Collection<CarDTO> carDTO =  carAdaptor.getAllCarDTOs(car);
+        Cars cars = new Cars(carDTO);
+        return cars;
+    }
+    //get car by brand and type
+    public Cars getCarsByBrandAndType(String brand, String type){
+        Collection<Car> car = carRepository.findByBrandAndType(brand, type);
+
+        Collection<CarDTO> carDTO =  carAdaptor.getAllCarDTOs(car);
+        Cars cars = new Cars(carDTO);
+        return cars;
     }
 
 
